@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cam's Rigged Coin Flipper</title>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="body">
+
+<div id="bottomHalfDiv"> 
+    <div id="winDisplay"></div>
+</div>
+
+<div id = GridBox>
+    <!-- Overall Grid that contains top half elements elements -->
+
+        <div id="powerButtons" class="vertContainer">
+            <!-- Vertical container for the power addition/subtraction -->
+
+            <input id="powerAddButton" type="button" value="+">
+            <input id="powerSubtractButton" type="button" value="-">
+
+        </div>
+
+        <input id="powerNumber" class="number" type="number" value="3">
+        
+        <div id="doubleButtons" class="vertContainer">
+            <!-- Vetical container for the power and toughness multiplication/division -->
+
+            <input id="doubleButton" type="button" value="Double">
+            <input id="resetButton" type="button" value="Reset">
+            <input id="halveButton" type="button" value="Halve">
+
+        </div>
+
+        <input id="toughnessNumber" class="number" type="number" value="3">
+
+        <div id="toughnessButtons" class="vertContainer">
+            <!-- Vertical container for the toughness addition/subtraction -->
+
+            <input id="toughnessAddButton" type="button" value="+">
+            <input id="toughnessSubtractButton" type="button" value="-">
+
+        </div>
+    
+        <input id="thumbNumber" class="number" type="number" value="1">
+
+        <div id="thumbButtons" class="vertContainer">
+            <!-- Vertical container for thumbs addition/subtraction -->
+
+            <input id="thumbAddButton" type="button" value="+">
+            <input id="thumbSubtractButton" type="button" value="-">
+
+        </div>
+
+        <input id="thumbCheckbox" type="checkbox"><label id="thumbLabel" for="thumbCheckbox">Krark's Thumb in play</label>
+
+        <input id="singleFlipButton" type="button" value="Flip a coin">
+        <input id="inAirCheckbox" type="checkbox"><label id="inAirLabel" for="inAirCheckbox">Call in air</label>
+
+        <input id="nFlipsButton" type="button" value="Flip N times">
+        <input id="nQuantityNumber" class="number" type="number" value="1">
+
+        <div id="nButtons" class="vertContainer">
+            <!-- Vertical container for N flips addition/subtraction -->
+
+            <input id="nAddButton" type="button" value="+">
+            <input id="nSubtractButton" type="button" value="-">
+
+        </div>
+
+        <input id="flipUntilLoseButton" type="button" value="Flip until lose">
+
+</div>
+
+<script defer>
+
+//This section establishes high level variables.
+let POWER = 3;
+let TOUGHNESS = 3;
+let THUMBS = 1;
+let nQuantity = 1;
+let WINCOUNT = 0;
+let WONFLIP = true;
+let THUMBINPLAY = false;
+let INAIR = false;
+let HEADS = true;
+
+    
+//#region Element References
+    const powerAddButton = document.getElementById("powerAddButton");
+    const powerSubtractButton = document.getElementById("powerSubtractButton");
+    const powerNumber = document.getElementById("powerNumber");
+    const doubleButton = document.getElementById("doubleButton");
+    const resetButton = document.getElementById("resetButton");
+    const halveButton = document.getElementById("halveButton");
+    const toughnessNumber = document.getElementById("toughnessNumber");
+    const toughnessAddButton = document.getElementById("toughnessAddButton");
+    const toughnessSubtractButton = document.getElementById("toughnessSubtractButton");
+    const thumbNumber = document.getElementById("thumbNumber");
+    const thumbAddButton = document.getElementById("thumbAddButton");
+    const thumbSubtractButton = document.getElementById("thumbSubtractButton");
+    const thumbCheckbox = document.getElementById("thumbCheckbox");
+    const singleFlipButton = document.getElementById("singleFlipButton");
+    const inAirCheckbox = document.getElementById("inAirCheckbox");
+    const nFlipsButton = document.getElementById("nFlipsButton");
+    const nQuantityNumber = document.getElementById("nQuantityNumber");
+    const nAddButton = document.getElementById("nAddButton");
+    const nSubtractButton = document.getElementById("nSubtractButton");
+    const flipUntilLoseButton = document.getElementById("flipUntilLoseButton");
+    const bottomHalfDiv = document.getElementById("bottomHalfDiv");
+//#endregion 
+
+//#region In-Depth Functions
+function getSide(){
+    let tempRandom = Math.random();
+
+    if (tempRandom > 0.5)
+    {
+        HEADS = true;
+        return './images/heads.png';
+    }
+    else
+    {
+        HEADS = false;
+        return './images/tails.png';
+    }
+};
+
+function flip(){
+    WONFLIP = false;
+    
+    let newLine = document.createElement('div');
+    newLine.setAttribute('class', 'line');
+    bottomHalfDiv.appendChild(newLine);
+    
+    if(THUMBINPLAY){
+        for(i=0;i<(2**THUMBS);i++){
+            let newImage = document.createElement('img');
+            newImage.setAttribute('class', 'coin');
+            newImage.setAttribute('alt', 'No Image');
+            newImage.setAttribute('src', getSide());
+            newLine.appendChild(newImage);
+
+            if(HEADS){WONFLIP = true;};
+        }
+    }
+    else{
+        let newImage = document.createElement('img');
+        newImage.setAttribute('class', 'coin');
+        newImage.setAttribute('alt', 'No Image');
+        newImage.setAttribute('src', getSide());
+        newLine.appendChild(newImage);
+
+        if(HEADS){WONFLIP = true;};
+    }
+
+    if(WONFLIP){WINCOUNT++;};
+};
+
+function singleFlip(){
+    clear();
+
+    if(INAIR){
+        flip();
+        WINCOUNT = 0;
+    }
+    else{
+        flip();
+        doubleWins();
+    }
+};
+
+function nFlips(){
+    clear();
+    nQuantity = nQuantityNumber.value;
+    for (let i = 0; i < nQuantity; i++) {
+        flip();
+    }
+    doubleWins();
+};
+
+function flipUntilLose(){
+    clear ();
+    WONFLIP = true;
+
+    while (WONFLIP) {
+        flip();
+    }
+    doubleWins();
+};
+
+function clear(){
+bottomHalfDiv.innerHTML = '<div id="winDisplay"></div>';
+};
+
+function doubleWins(){
+    //displayWins is included because they are always called at the same time, but it can be called individually if needed.
+    
+    for(i = 0; i < WINCOUNT; i++){
+        double();
+    }
+    displayWins();
+    WINCOUNT = 0;
+};
+
+function double(){
+        //This is separated out so it can be called individually by the event listener.
+    
+        POWER = parseFloat(POWER) * 2;
+        TOUGHNESS = parseFloat(TOUGHNESS) * 2;
+        powerNumber.value = POWER;
+        toughnessNumber.value = TOUGHNESS;
+}
+
+function displayWins(){
+    displayDiv  = document.getElementById('winDisplay');
+    displayDiv.innerText = WINCOUNT.toString() + ' wins';
+}
+//#endregion
+
+//#region addEventListeners
+    powerAddButton.addEventListener("click", function addPower(e) {
+        POWER = parseFloat(POWER) + 1;
+        powerNumber.value = POWER;
+    });
+
+    powerSubtractButton.addEventListener("click", function subtractPower(e) {
+        POWER = parseFloat(POWER) - 1;
+
+        if(POWER == -1){
+            POWER = 0;
+            powerNumber.value = 0;
+        }
+        else{
+            powerNumber.value = POWER;
+        }
+    });
+
+    doubleButton.addEventListener("click", double);
+
+    resetButton.addEventListener("click", function reset(e) {
+        POWER = 3;
+        TOUGHNESS = 3;
+        powerNumber.value = POWER;
+        toughnessNumber.value = TOUGHNESS;
+    });
+
+    halveButton.addEventListener("click", function halve(e) {
+        if(POWER <= 3){}
+        else{
+            POWER = parseFloat(POWER) / 2;
+        }
+        if(TOUGHNESS <= 3){}
+        else{
+            TOUGHNESS = parseFloat(TOUGHNESS) / 2;
+        }
+
+        powerNumber.value = POWER;
+        toughnessNumber.value = TOUGHNESS;
+    });
+
+    toughnessAddButton.addEventListener("click", function addToughness(e) {
+        TOUGHNESS = parseFloat(TOUGHNESS) + 1;
+        toughnessNumber.value = TOUGHNESS;
+    });   
+    
+    toughnessSubtractButton.addEventListener("click", function subtractToughness(e) {
+        TOUGHNESS = parseFloat(TOUGHNESS) - 1;
+
+        if(TOUGHNESS == -1){
+            TOUGHNESS = 0;
+            toughnessNumber.value = 0;
+        }
+        else{
+            toughnessNumber.value = TOUGHNESS;
+        }
+    });  
+
+     thumbAddButton.addEventListener("click", function addThumb(e) {
+        THUMBS = parseFloat(THUMBS) + 1;
+        thumbNumber.value = THUMBS;
+    });
+
+    thumbSubtractButton.addEventListener("click", function subtractThumb(e) {
+        THUMBS = parseFloat(THUMBS) - 1;
+
+        if(THUMBS == 0){
+            THUMBS = 1;
+            thumbNumber.value = 1;
+        }
+        else{
+            thumbNumber.value = THUMBS;
+        }
+    });
+
+    thumbCheckbox.addEventListener("change", function toggleThumb(e) {
+        THUMBINPLAY = !THUMBINPLAY;
+    });
+
+    singleFlipButton.addEventListener("click", singleFlip);
+
+    inAirCheckbox.addEventListener("change", function toggleInAir(e) {
+        INAIR = !INAIR;
+    });
+
+    nFlipsButton.addEventListener("click", nFlips);
+
+    nAddButton.addEventListener("click", function addN(e) {
+        nQuantity = parseFloat(nQuantity) + 1;
+        nQuantityNumber.value = nQuantity;
+    });
+
+    nSubtractButton.addEventListener("click", function subtractN(e) {
+        nQuantity = parseFloat(nQuantity) - 1;
+        
+        if(nQuantity == -1){
+            nQuantity = 0;
+            nQuantityNumber.value = 0;
+        }
+        else{
+            nQuantityNumber.value = nQuantity;
+        }
+    });
+
+    flipUntilLoseButton.addEventListener("click", flipUntilLose);
+//#endregion
+
+</script>
+
+</body>
+</html>
