@@ -1,7 +1,56 @@
-#body{
-    background-color: black;
+/* || RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* || VARIABLES */
+:root {
+    /* COLORS */
+    --FC:  limegreen;
+    --BGCOLOR: #000;
+    --BGFADE: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.8), rgba(0,0,0,0));
+    --CHBX-COLOR: #FFF;
+
+    /* FONT */
+    --FF: sans-serif;
+    --FS: medium;
+    --FW: bold;
+}
+
+/* || UTILITY */
+.grow {
+    flex-grow: 1;
+}
+
+.center {
+    text-align: center;
+}
+
+.flexCenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* || GENERAL */
+html {
+    color: var(--FC);
+    font-family: var(--FF);
+    font-size: var(--FS);
+    font-weight: var(--FW);
+    line-height: 1.2;
+    place-content: center;
+    min-width: fit-content;
+    white-space: nowrap;
+}
+
+body{
+    background-color: var(--BGCOLOR);
+}
+
+/* || BODY */
 .coin{
     width: 50px;
     height: 50px;
@@ -18,184 +67,68 @@
     grid-auto-rows: 50px;
 
     justify-content: center;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 5%;
+    margin: 0 5% 5% 5%;
 
     overflow: auto;
 
     z-index: -100;
-    background: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.8), rgba(0,0,0,0)), url(./images/okaun.jpg) bottom  no-repeat;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
+    background: var(--BGFADE), url(./images/okaun.jpg) bottom  no-repeat;
+    position: absolute;
     height: 303px;  
     width: 90%;
+    bottom: 0;
 }
 
-#winDisplay{
-    color: limegreen;
-    font-family: sans-serif;
-    font-size: medium;
-    font-weight: bold;
-    place-content: center;
-    min-width: fit-content;
-    white-space: nowrap;
-}
-
-#GridBox{
+#GridBox {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: 
+        "a b c d e"
+        "f g . h i"
+        "j j . k l"
+        "m m . n o"
+        "p p p p p";
 
-    Justify-content: center;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 2%;
-
+    margin: 1rem 2rem 0 2rem; /* top right bottom left */
     column-gap: 10px;
     row-gap: 10px;
 }
 
 #GridBox > * {
-    place-content: center;
     min-width: 50px;
     min-height: 50px;
     width: 100%;
-
     display: flex;
     place-content: center;
-
-    box-sizing: border-box;
-    text-align: center;
-    line-height: 1.2;
 }
 
-.vertContainer{
+.vertContainer {
     display: flex;
     flex-direction: column;
 }
 
-#powerButtons{
-    grid-area: 1 / 1 / 2 / 2;
-}
+/* Row 1 */
+#powerButtons      { grid-area: a; }
+#powerNumber       { grid-area: b; }
+#doubleButtons     { grid-area: c; }
+#toughnessNumber   { grid-area: d; }
+#toughnessButtons  { grid-area: e; }
 
-#powerAddButton{
-    flex-grow: 1;
-}
+/* Row 2 */
+#thumbNumber       { grid-area: f; }
+#thumbButtons      { grid-area: g; }
+#thumbCheckbox     { grid-area: h; }
+#thumbLabel        { grid-area: i; color: var(--CHBX-COLOR); }
 
-#powerSubtractButton{
-    flex-grow: 1;
-}
+/* Row 3 */
+#singleFlipButton  { grid-area: j; }
+#inAirCheckbox     { grid-area: k; }
+#inAirLabel        { grid-area: l; color: var(--CHBX-COLOR); }
 
-#powerNumber{
-    text-align: center;
-    grid-area: 1 / 2 / 2 / 3;
-}
+/* Row 4 */
+#nFlipsButton      { grid-area: m; }
+#nQuantityNumber   { grid-area: n; }
+#nButtons          { grid-area: o; }
 
-#doubleButtons{
-    grid-area: 1 / 3 / 2 / 4;
-}
-
-#doubleButton{
-    flex-grow: 1;
-}
-
-#resetButton{
-    flex-grow: 1;
-}
-
-#halveButton{
-    flex-grow: 1;
-}
-
-#toughnessNumber{
-    text-align: center;
-    grid-area: 1 / 4 / 2 / 5;
-}
-
-#toughnessButtons{
-    grid-area: 1 / 5 / 2 / 6;
-}
-
-#toughnessAddButton{
-    flex-grow: 1;
-}
-
-#toughnessSubtractButton{
-    flex-grow: 1;
-}
-
-#thumbNumber{
-    text-align: center;
-    grid-area: 2 / 1 / 3 / 2;
-}
-
-#thumbButtons{
-    grid-area: 2 / 2 / 3 / 3;
-}
-
-#thumbAddButton{
-    flex-grow: 1;
-}
-
-#thumbSubtractButton{
-    flex-grow: 1;
-}
-
-#thumbCheckbox{
-    grid-area: 2 / 4 / 3 / 5;
-}
-
-#thumbLabel{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    
-
-    grid-area: 2 / 5 / 3 / 6;
-}
-
-#singleFlipButton{
-    grid-area: 3 / 1 / 4 / 3;
-}
-
-#inAirCheckbox{
-    grid-area: 3 / 4 / 4 / 5;
-}
-
-#inAirLabel{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-
-    grid-area: 3 / 5 / 4 / 6;
-}
-
-#nFlipsButton{
-    grid-area: 4 / 1 / 5 / 3;
-}
-
-#nQuantityNumber{
-    text-align: center;
-    grid-area: 4 / 4 / 5 / 5;
-}
-
-#nButtons{
-    grid-area: 4 / 5 / 5 / 6;
-}
-
-#nAddButton{
-    flex-grow: 1;
-}
-
-#nSubtractButton{
-    flex-grow: 1;
-}
-
-#flipUntilLoseButton{
-    grid-area: 5 / 1 / 6 / 6;
-}
+/* Row 5 */
+#flipUntilLoseButton { grid-area: p; }
