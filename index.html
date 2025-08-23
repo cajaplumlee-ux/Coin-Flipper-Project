@@ -7,19 +7,14 @@
     <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body id="body">
-
-<div id="bottomHalfDiv"> 
-    <div id="winDisplay"></div>
-</div>
-
 <div id = GridBox>
-    <!-- Overall Grid that contains top half elements elements -->
+    <!-- Overall Grid that contains top half input elements -->
 
         <div id="powerButtons" class="vertContainer">
             <!-- Vertical container for the power addition/subtraction -->
 
-            <input id="powerAddButton" type="button" value="+">
-            <input id="powerSubtractButton" type="button" value="-">
+            <input id="powerAddButton" class="button" type="button" value="+">
+            <input id="powerSubtractButton" class="button" type="button" value="-">
 
         </div>
 
@@ -28,9 +23,9 @@
         <div id="doubleButtons" class="vertContainer">
             <!-- Vetical container for the power and toughness multiplication/division -->
 
-            <input id="doubleButton" type="button" value="Double">
-            <input id="resetButton" type="button" value="Reset">
-            <input id="halveButton" type="button" value="Halve">
+            <input id="doubleButton" class="button" type="button" value="Double">
+            <input id="resetButton" class="button" type="button" value="Reset">
+            <input id="halveButton" class="button" type="button" value="Halve">
 
         </div>
 
@@ -39,8 +34,8 @@
         <div id="toughnessButtons" class="vertContainer">
             <!-- Vertical container for the toughness addition/subtraction -->
 
-            <input id="toughnessAddButton" type="button" value="+">
-            <input id="toughnessSubtractButton" type="button" value="-">
+            <input id="toughnessAddButton" class="button" type="button" value="+">
+            <input id="toughnessSubtractButton" class="button" type="button" value="-">
 
         </div>
     
@@ -49,34 +44,39 @@
         <div id="thumbButtons" class="vertContainer">
             <!-- Vertical container for thumbs addition/subtraction -->
 
-            <input id="thumbAddButton" type="button" value="+">
-            <input id="thumbSubtractButton" type="button" value="-">
+            <input id="thumbAddButton" class="button" type="button" value="+">
+            <input id="thumbSubtractButton" class="button" type="button" value="-">
 
         </div>
 
-        <input id="thumbCheckbox" type="checkbox"><label id="thumbLabel" for="thumbCheckbox">Krark's Thumb in play</label>
+        <input id="thumbCheckbox" type="checkbox"><label id="thumbLabel" class="label" for="thumbCheckbox">Krark's Thumb in play</label>
 
-        <input id="singleFlipButton" type="button" value="Flip a coin">
-        <input id="inAirCheckbox" type="checkbox"><label id="inAirLabel" for="inAirCheckbox">Call in air</label>
+        <input id="singleFlipButton" class="button" type="button" value="Flip a coin">
+        <input id="inAirCheckbox" type="checkbox"><label id="inAirLabel" class="label" for="inAirCheckbox">Call in air</label>
 
-        <input id="nFlipsButton" type="button" value="Flip N times">
+        <input id="nFlipsButton" class="button" type="button" value="Flip N times">
         <input id="nQuantityNumber" class="number" type="number" value="1">
 
         <div id="nButtons" class="vertContainer">
             <!-- Vertical container for N flips addition/subtraction -->
 
-            <input id="nAddButton" type="button" value="+">
-            <input id="nSubtractButton" type="button" value="-">
+            <input id="nAddButton" class="button" type="button" value="+">
+            <input id="nSubtractButton" class="button" type="button" value="-">
 
         </div>
 
-        <input id="flipUntilLoseButton" type="button" value="Flip until lose">
+        <input id="flipUntilLoseButton" class="button" type="button" value="Flip until lose">
+</div>
 
+<div id="bottomHalfDiv"> 
+    <!-- A div below the top half Grid Box to contain results images and the win display -->
+
+    <div id="winDisplay"></div>
 </div>
 
 <script defer>
 
-//This section establishes high level variables.
+//#region High level variables
 let POWER = 3;
 let TOUGHNESS = 3;
 let THUMBS = 1;
@@ -86,6 +86,7 @@ let WONFLIP = true;
 let THUMBINPLAY = false;
 let INAIR = false;
 let HEADS = true;
+//#endregion
 
     
 //#region Element References
@@ -112,7 +113,7 @@ let HEADS = true;
     const bottomHalfDiv = document.getElementById("bottomHalfDiv");
 //#endregion 
 
-//#region In-Depth Functions
+//#region Common Functions
 function getSide(){
     let tempRandom = Math.random();
 
@@ -220,7 +221,7 @@ function displayWins(){
 }
 //#endregion
 
-//#region addEventListeners
+//#region Event Listeners
     powerAddButton.addEventListener("click", function addPower(e) {
         POWER = parseFloat(POWER) + 1;
         powerNumber.value = POWER;
