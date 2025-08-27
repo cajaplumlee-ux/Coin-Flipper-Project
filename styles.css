@@ -34,6 +34,13 @@
     align-items: center;
 }
 
+/* Centering fix for Safari */
+.safPad {
+    /*padding fix last case */
+    /*padding-left: 45%;*/
+    text-align: -webkit-center;
+}
+
 /* || GENERAL */
 html {
     color: var(--FC);
