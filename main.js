@@ -34,7 +34,7 @@ let HEADS = true;
     const bottomHalfDiv = document.getElementById("bottomHalfDiv");
 //#endregion 
 
-//#region In-Depth Functions
+// Game Logic //
 function getSide(){
     let tempRandom = Math.floor(Math.random() * 2);
 
@@ -127,20 +127,12 @@ function doubleWins(){
     WINCOUNT = 0;
 };
 
-function double(){
-        //This is separated out so it can be called individually by the event listener.
-    
-        POWER = parseFloat(POWER) * 2;
-        TOUGHNESS = parseFloat(TOUGHNESS) * 2;
-        powerNumber.value = POWER;
-        toughnessNumber.value = TOUGHNESS;
-}
-
 function displayWins(){
     displayDiv  = document.getElementById('winDisplay');
     displayDiv.innerText = WINCOUNT.toString() + ' wins';
 }
-//#endregion
+
+// POWER MODIFICATION //
 
 function addPower() {
     POWER = parseFloat(POWER) + 1;
@@ -157,6 +149,15 @@ function subtractPower() {
     else{
         powerNumber.value = POWER;
     }
+}
+
+function double(){
+    //This is separated out so it can be called individually by the event listener.
+    
+    POWER = parseFloat(POWER) * 2;
+    TOUGHNESS = parseFloat(TOUGHNESS) * 2;
+    powerNumber.value = POWER;
+    toughnessNumber.value = TOUGHNESS;
 }
 
 function reset() {
@@ -180,6 +181,8 @@ function halve() {
     toughnessNumber.value = TOUGHNESS;  
 }
 
+// TOUGHNESS MODIFICATION //
+
 function addToughness() {
     TOUGHNESS = parseFloat(TOUGHNESS) + 1;
     toughnessNumber.value = TOUGHNESS;
@@ -196,6 +199,8 @@ function subtractToughness() {
         toughnessNumber.value = TOUGHNESS;
     }
 }
+
+// THUMB MODIFICATION //
 
 function addThumb() {
     THUMBS = parseFloat(THUMBS) + 1;
@@ -218,9 +223,13 @@ function toggleThumb() {
     THUMBINPLAY = !THUMBINPLAY;
 }
 
+// IN AIR MODIFICATION //
+
 function toggleInAir() {
     INAIR = !INAIR;
 }
+
+// N FLIPS MODIFICATION //
 
 function addN() {
     nQuantity = parseFloat(nQuantity) + 1;
